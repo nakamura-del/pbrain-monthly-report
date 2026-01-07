@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>P-Brain 全国データ マンスリーレポート</title>
+<style>
+:root{
+  --bg:#0b0f19;
+  --card:#121a2a;
+  --text:#e7eefc;
+  --muted:#a9b7d0;
+  --line:rgba(255,255,255,.08);
+  --accent:#6aa9ff;
+  --good:#4ade80;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic",Meiryo,sans-serif;
+  background: linear-gradient(180deg,#070a12 0%, #0b0f19 50%, #070a12 100%);
+  color:var(--text);
+}
+.container{max-width:1100px;margin:0 auto;padding:24px 16px 60px}
+.header{
+  display:flex; gap:16px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap;
+  padding:16px 18px; border:1px solid var(--line); border-radius:18px;
+  background: radial-gradient(1200px 600px at 10% 0%, rgba(106,169,255,.18), transparent 60%),
+              radial-gradient(900px 500px at 80% 10%, rgba(74,222,128,.10), transparent 60%),
+              rgba(18,26,42,.75);
+  backdrop-filter: blur(10px);
+}
+.h-title{font-size:22px; font-weight:800; letter-spacing:.02em}
+.h-sub{color:var(--muted); font-size:13px; margin-top:6px}
+.badge{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 12px; border:1px solid var(--line); border-radius:999px;
+  background: rgba(255,255,255,.04);
+  font-size:12px; color:var(--muted);
+}
+.grid{display:grid; grid-template-columns:1fr; gap:16px; margin-top:16px}
+.card{
+  border:1px solid var(--line); border-radius:18px; background: rgba(18,26,42,.75);
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  overflow:hidden;
+}
+.card-head{
+  padding:14px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  border-bottom:1px solid var(--line);
+}
+.card-title{font-size:16px; font-weight:800}
+.card-note{font-size:12px; color:var(--muted)}
+.table-wrap{overflow:auto}
+.data-table{width:100%; border-collapse:separate; border-spacing:0; min-width:940px}
+.data-table thead th{
+  position:sticky; top:0;
+  background: rgba(12,18,32,.95);
+  border-bottom:1px solid var(--line);
+  color:var(--muted);
+  font-weight:700;
+  font-size:12px;
+  padding:10px 10px;
+  text-align:left;
+  white-space:nowrap;
+}
+.data-table tbody td{
+  border-bottom:1px solid rgba(255,255,255,.06);
+  padding:10px 10px;
+  font-size:13px;
+  vertical-align:middle;
+}
+.data-table tbody tr:nth-child(odd){background: rgba(255,255,255,.02)}
+.data-table tbody tr:hover{background: rgba(106,169,255,.08)}
+.data-table td:nth-child(1){font-weight:800}
+.data-table td:nth-child(6){max-width:420px}
+.kpi-row{
+  display:flex; flex-wrap:wrap; gap:10px;
+}
+.kpi{
+  flex: 1 1 160px;
+  padding:12px 14px; border:1px solid var(--line); border-radius:14px;
+  background: rgba(255,255,255,.03);
+}
+.kpi .label{font-size:11px;color:var(--muted)}
+.kpi .value{font-size:18px;font-weight:900;margin-top:6px}
+.footer{margin-top:18px;color:var(--muted);font-size:12px}
+.small{font-size:12px;color:var(--muted)}
+a{color:var(--accent)}
+
+.note-inline{ font-size:12px; opacity:.8; margin-left:8px; }
+.kpi{ display:grid; grid-template-columns: repeat(5, minmax(0,1fr)); gap:10px; margin:12px 0 14px; }
+.kpi-item{ background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:10px 12px; }
+.kpi-item .label{ font-size:12px; opacity:.75; }
+.kpi-item .value{ font-size:18px; font-weight:700; margin-top:4px; letter-spacing:.2px; }
+
+
+.data-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 1100px;
+  background: rgba(0,0,0,.10); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; overflow:hidden; }
+.data-table th, .data-table td { padding: 10px 10px; border-bottom: 1px solid rgba(255,255,255,.08); border-right: 1px solid rgba(255,255,255,.06);
+  white-space: nowrap; font-size: 12.5px; vertical-align: middle; }
+.data-table th:last-child, .data-table td:last-child { border-right: none; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table thead th { position: sticky; top: 0; background: rgba(18,26,42,.92); backdrop-filter: blur(8px);
+  font-weight: 700; color: rgba(231,238,252,.92); z-index: 2; }
+.data-table tbody tr:nth-child(even) td { background: rgba(255,255,255,.02); }
+.data-table tbody tr:hover td { background: rgba(106,169,255,.06); }
+
+.table-wrap { overflow-x: auto; }
+
+.delta { display: inline-flex; align-items: center; gap: 8px; }
+.delta .val { font-variant-numeric: tabular-nums; }
+.delta.pos .val { color: rgba(120, 255, 190, .95); }
+.delta.neg .val { color: rgba(255, 140, 140, .95); }
+.delta.zero .val { color: rgba(220, 226, 242, .75); }
+
+.bar { display:inline-flex; width: 70px; height: 8px; border-radius: 999px; background: rgba(255,255,255,.08); overflow:hidden; }
+.bar .fill { height: 100%; border-radius: 999px; background: rgba(120, 255, 190, .85); }
+.bar.neg .fill { background: rgba(255, 140, 140, .85); }
+
+.metrics-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; padding: 14px 16px 16px; }
+.metric { border: 1px solid rgba(255,255,255,.10); border-radius: 14px; padding: 12px 12px; background: rgba(0,0,0,.14); }
+.m-label { font-size: 12px; opacity: .8; }
+.m-main { font-size: 20px; font-weight: 800; margin-top: 6px; }
+.m-delta { margin-top: 6px; font-size: 12px; display:inline-block; padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12); }
+.m-delta.pos { background: rgba(120,255,190,.08); }
+.m-delta.neg { background: rgba(255,140,140,.08); }
+.m-delta.zero { background: rgba(255,255,255,.04); }
+
+.card-head { padding: 14px 16px 0; }
+.card-title { font-weight: 800; font-size: 14px; }
+.card-sub { font-size: 12px; opacity: .75; margin-top: 4px; }
+
+.row-between { display:flex; justify-content: space-between; align-items:flex-start; gap:12px; }
+.tag { font-size: 12px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04); opacity:.9; white-space:nowrap; margin-top: 2px; }
+
+.small-note { font-size: 12px; opacity: .7; margin-top: 6px; }
+
+@media (max-width: 980px) {
+  .metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <div class="h-title">P-Brain 全国データ</div>
+        <div class="h-sub">マンスリーレポート（2025年12月 vs 2024年12月）</div>
+      </div>
+      <div class="badge">生成日: 2026-01-07</div>
+    </div>
+
+    
+
+<section class="card">
+  <div class="card-head">
+    <div class="card-title">総評</div>
+  </div>
+  <div style="padding:14px 16px 16px; line-height:1.7; font-size:13px;">
+    <p>
+      2025年12月はS部門が牽引し、P部門は玉利上昇によって粗利を確保する構造がより鮮明になった月である。<br>
+      各シェアともにS部門の増加が顕著であり、詳細についてはレポート内数値を参照されたい。
+    </p>
+  </div>
+</section>
+
+<div class="grid">
+      
+    <section class="card">
+      <div class="card-head row-between">
+        <div>
+          <div class="card-title">P部門サマリー</div>
+          <div class="card-sub">2025年12月（2024年12月比）</div>
+        </div>
+        <div class="tag">前年同月比</div>
+      </div>
+      <div class="metrics-grid">
+        
+    <div class="metric">
+      <div class="m-label">打込</div>
+      <div class="m-main">14,566</div>
+      <div class="m-delta delta neg">▲175</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台売上</div>
+      <div class="m-main">16,070</div>
+      <div class="m-delta delta pos">232</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台粗利</div>
+      <div class="m-main">2,937</div>
+      <div class="m-delta delta pos">145</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">玉単価</div>
+      <div class="m-main">1.103</div>
+      <div class="m-delta delta pos">0.029</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">玉利</div>
+      <div class="m-main">0.202</div>
+      <div class="m-delta delta pos">0.013</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">打込シェア</div>
+      <div class="m-main">58.07%</div>
+      <div class="m-delta delta neg">▲0.61pt</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台売上シェア</div>
+      <div class="m-main">46.70%</div>
+      <div class="m-delta delta neg">▲0.85pt</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台粗利シェア</div>
+      <div class="m-main">54.17%</div>
+      <div class="m-delta delta neg">▲0.50pt</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台数シェア</div>
+      <div class="m-main">56.34%</div>
+      <div class="m-delta delta neg">▲1.83pt</div>
+    </div>
+    
+      </div>
+    </section>
+    
+      
+    <section class="card">
+      <div class="card-head row-between">
+        <div>
+          <div class="card-title">S部門サマリー</div>
+          <div class="card-sub">2025年12月（2024年12月比）</div>
+        </div>
+        <div class="tag">前年同月比</div>
+      </div>
+      <div class="metrics-grid">
+        
+    <div class="metric">
+      <div class="m-label">打込</div>
+      <div class="m-main">9,495</div>
+      <div class="m-delta delta neg">▲146</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台売上</div>
+      <div class="m-main">23,680</div>
+      <div class="m-delta delta neg">▲607</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台粗利</div>
+      <div class="m-main">3,208</div>
+      <div class="m-delta delta neg">▲12</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">玉単価</div>
+      <div class="m-main">2.494</div>
+      <div class="m-delta delta neg">▲0.025</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">玉利</div>
+      <div class="m-main">0.338</div>
+      <div class="m-delta delta pos">0.004</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">打込シェア</div>
+      <div class="m-main">41.93%</div>
+      <div class="m-delta delta pos">0.61pt</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台売上シェア</div>
+      <div class="m-main">53.30%</div>
+      <div class="m-delta delta pos">0.85pt</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台粗利シェア</div>
+      <div class="m-main">45.83%</div>
+      <div class="m-delta delta pos">0.50pt</div>
+    </div>
+    
+    <div class="metric">
+      <div class="m-label">台数シェア</div>
+      <div class="m-main">43.66%</div>
+      <div class="m-delta delta pos">1.83pt</div>
+    </div>
+    
+      </div>
+    </section>
+    
+
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">P部門 全体平均（詳細）</div>
+          <div class="card-sub">前年差：2024年12月比（シェアはpt増減）</div>
+        </div>
+        <div style="padding:12px 16px 16px;">
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>指標</th><th>2025年12月</th><th>2024年12月</th><th>増減</th></tr></thead><tbody><tr><td class="left">打込</td><td class="num">14,566</td><td class="num">14,741</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:75.4%"></span></span><span class="val">▲175</span></td></tr><tr><td class="left">玉利</td><td class="num">0.202</td><td class="num">0.189</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.0%"></span></span><span class="val">0.013</span></td></tr><tr><td class="left">台粗利</td><td class="num">2,937</td><td class="num">2,792</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:62.5%"></span></span><span class="val">145</span></td></tr><tr><td class="left">台売上</td><td class="num">16,070</td><td class="num">15,838</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">232</span></td></tr><tr><td class="left">玉単価</td><td class="num">1.103</td><td class="num">1.074</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.0%"></span></span><span class="val">0.029</span></td></tr><tr><td class="left">打込シェア</td><td class="num">58.07%</td><td class="num">58.67%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:0.3%"></span></span><span class="val">▲0.61pt</span></td></tr><tr><td class="left">台売上シェア</td><td class="num">46.70%</td><td class="num">47.55%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:0.4%"></span></span><span class="val">▲0.85pt</span></td></tr><tr><td class="left">台粗利シェア</td><td class="num">54.17%</td><td class="num">54.67%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:0.2%"></span></span><span class="val">▲0.50pt</span></td></tr><tr><td class="left">台数シェア</td><td class="num">56.34%</td><td class="num">58.17%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:0.8%"></span></span><span class="val">▲1.83pt</span></td></tr></tbody></table></div>
+          <div class="small-note">※ シェアは「%」表示、前年差は「pt」で表示</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">S部門 全体平均（詳細）</div>
+          <div class="card-sub">前年差：2024年12月比（シェアはpt増減 / 台売上・台粗利・台数シェアはS20補正で100%合わせ）</div>
+        </div>
+        <div style="padding:12px 16px 16px;">
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>指標</th><th>2025年12月</th><th>2024年12月</th><th>増減</th></tr></thead><tbody><tr><td class="left">打込</td><td class="num">9,495</td><td class="num">9,641</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:24.1%"></span></span><span class="val">▲146</span></td></tr><tr><td class="left">玉利</td><td class="num">0.338</td><td class="num">0.334</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.0%"></span></span><span class="val">0.004</span></td></tr><tr><td class="left">台粗利</td><td class="num">3,208</td><td class="num">3,220</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:2.0%"></span></span><span class="val">▲12</span></td></tr><tr><td class="left">台売上</td><td class="num">23,680</td><td class="num">24,287</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲607</span></td></tr><tr><td class="left">玉単価</td><td class="num">2.494</td><td class="num">2.519</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:0.0%"></span></span><span class="val">▲0.025</span></td></tr><tr><td class="left">打込シェア</td><td class="num">41.93%</td><td class="num">41.33%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.1%"></span></span><span class="val">0.61pt</span></td></tr><tr><td class="left">台売上シェア</td><td class="num">53.30%</td><td class="num">52.45%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.1%"></span></span><span class="val">0.85pt</span></td></tr><tr><td class="left">台粗利シェア</td><td class="num">45.83%</td><td class="num">45.33%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.1%"></span></span><span class="val">0.50pt</span></td></tr><tr><td class="left">台数シェア</td><td class="num">43.66%</td><td class="num">41.83%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.3%"></span></span><span class="val">1.83pt</span></td></tr></tbody></table></div>
+          <div class="small-note">※ シェアは「%」表示、前年差は「pt」で表示</div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">P部門 レート別</div>
+          <div class="card-sub">遊技種別表記：資料の表記に準拠</div>
+        </div>
+        <div style="padding:12px 16px 16px;">
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>遊技種別</th><th>打込 2025</th><th>打込 2024</th><th>打込 増減</th><th>玉利 2025</th><th>玉利 2024</th><th>玉利 増減</th><th>台粗利 2025</th><th>台粗利 2024</th><th>台粗利 増減</th><th>台売上 2025</th><th>台売上 2024</th><th>台売上 増減</th><th>玉単価 2025</th><th>玉単価 2024</th><th>玉単価 増減</th><th>打込シェア 2025</th><th>打込シェア 2024</th><th>打込シェア 増減</th><th>台売上シェア 2025</th><th>台売上シェア 2024</th><th>台売上シェア 増減</th><th>台粗利シェア 2025</th><th>台粗利シェア 2024</th><th>台粗利シェア 増減</th><th>台数シェア 2025</th><th>台数シェア 2024</th><th>台数シェア 増減</th></tr></thead><tbody><tr><td class="left">P4</td><td class="num">12,261</td><td class="num">12,207</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:5.7%"></span></span><span class="val">54</span></td><td class="num">0.354</td><td class="num">0.327</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:69.2%"></span></span><span class="val">0.027</span></td><td class="num">4,344</td><td class="num">3,990</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">354</span></td><td class="num">25,183</td><td class="num">24,171</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:98.0%"></span></span><span class="val">1,012</span></td><td class="num">2.054</td><td class="num">1.980</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">0.074</span></td><td class="num">12.65%</td><td class="num">12.34%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:38.7%"></span></span><span class="val">0.31pt</span></td><td class="num">36.70%</td><td class="num">37.36%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲0.66pt</span></td><td class="num">40.19%</td><td class="num">40.22%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:7.0%"></span></span><span class="val">▲0.03pt</span></td><td class="num">28.26%</td><td class="num">29.95%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲1.69pt</span></td></tr><tr><td class="left">P2-4未満</td><td class="num">7,889</td><td class="num">8,833</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲944</span></td><td class="num">0.284</td><td class="num">0.245</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">0.039</span></td><td class="num">2,240</td><td class="num">2,168</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:20.3%"></span></span><span class="val">72</span></td><td class="num">8,806</td><td class="num">9,839</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲1,033</span></td><td class="num">1.116</td><td class="num">1.114</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:2.7%"></span></span><span class="val">0.002</span></td><td class="num">8.14%</td><td class="num">8.93%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲0.79pt</span></td><td class="num">0.14%</td><td class="num">0.19%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:7.6%"></span></span><span class="val">▲0.05pt</span></td><td class="num">0.22%</td><td class="num">0.28%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:14.0%"></span></span><span class="val">▲0.06pt</span></td><td class="num">0.30%</td><td class="num">0.38%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:4.7%"></span></span><span class="val">▲0.08pt</span></td></tr><tr><td class="left">P1-2未満</td><td class="num">16,825</td><td class="num">17,416</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:62.6%"></span></span><span class="val">▲591</span></td><td class="num">0.092</td><td class="num">0.089</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:7.7%"></span></span><span class="val">0.003</span></td><td class="num">1,555</td><td class="num">1,554</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.3%"></span></span><span class="val">1</span></td><td class="num">7,141</td><td class="num">7,219</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:7.6%"></span></span><span class="val">▲78</span></td><td class="num">0.424</td><td class="num">0.414</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:13.5%"></span></span><span class="val">0.010</span></td><td class="num">17.36%</td><td class="num">17.61%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:31.7%"></span></span><span class="val">▲0.25pt</span></td><td class="num">9.59%</td><td class="num">9.74%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:22.7%"></span></span><span class="val">▲0.15pt</span></td><td class="num">13.25%</td><td class="num">13.68%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲0.43pt</span></td><td class="num">26.03%</td><td class="num">26.15%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:7.1%"></span></span><span class="val">▲0.12pt</span></td></tr><tr><td class="left">P0-1未満</td><td class="num">19,306</td><td class="num">19,569</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:27.9%"></span></span><span class="val">▲263</span></td><td class="num">0.046</td><td class="num">0.044</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:5.1%"></span></span><span class="val">0.002</span></td><td class="num">883</td><td class="num">855</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:7.9%"></span></span><span class="val">28</span></td><td class="num">2,956</td><td class="num">2,948</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:0.8%"></span></span><span class="val">8</span></td><td class="num">0.153</td><td class="num">0.151</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:2.7%"></span></span><span class="val">0.002</span></td><td class="num">19.92%</td><td class="num">19.79%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:16.6%"></span></span><span class="val">0.13pt</span></td><td class="num">0.27%</td><td class="num">0.26%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:1.5%"></span></span><span class="val">0.01pt</span></td><td class="num">0.51%</td><td class="num">0.49%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:4.7%"></span></span><span class="val">0.02pt</span></td><td class="num">1.75%</td><td class="num">1.69%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:3.6%"></span></span><span class="val">0.06pt</span></td></tr></tbody></table></div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div class="card-title">S部門 レート別</div>
+          <div class="card-sub">シェアはpt増減表示（台売上・台粗利・台数シェアはS20補正で100%合わせ）</div>
+        </div>
+        <div style="padding:12px 16px 16px;">
+          <div class="table-wrap"><table class="data-table"><thead><tr><th>遊技種別</th><th>打込 2025</th><th>打込 2024</th><th>打込 増減</th><th>玉利 2025</th><th>玉利 2024</th><th>玉利 増減</th><th>台粗利 2025</th><th>台粗利 2024</th><th>台粗利 増減</th><th>台売上 2025</th><th>台売上 2024</th><th>台売上 増減</th><th>玉単価 2025</th><th>玉単価 2024</th><th>玉単価 増減</th><th>打込シェア 2025</th><th>打込シェア 2024</th><th>打込シェア 増減</th><th>台売上シェア 2025</th><th>台売上シェア 2024</th><th>台売上シェア 増減</th><th>台粗利シェア 2025</th><th>台粗利シェア 2024</th><th>台粗利シェア 増減</th><th>台数シェア 2025</th><th>台数シェア 2024</th><th>台数シェア 増減</th></tr></thead><tbody><tr><td class="left">S20</td><td class="num">9,389</td><td class="num">9,573</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:52.9%"></span></span><span class="val">▲184</span></td><td class="num">0.375</td><td class="num">0.367</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:66.7%"></span></span><span class="val">0.008</span></td><td class="num">3,518</td><td class="num">3,509</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:4.3%"></span></span><span class="val">9</span></td><td class="num">26,885</td><td class="num">27,435</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲550</span></td><td class="num">2.863</td><td class="num">2.866</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:10.3%"></span></span><span class="val">▲0.003</span></td><td class="num">9.69%</td><td class="num">9.68%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:1.4%"></span></span><span class="val">0.01pt</span></td><td class="num">49.20%</td><td class="num">48.79%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">0.41pt</span></td><td class="num">40.87%</td><td class="num">40.69%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:60.0%"></span></span><span class="val">0.18pt</span></td><td class="num">35.51%</td><td class="num">34.45%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">1.06pt</span></td></tr><tr><td class="left">S102-0未満</td><td class="num">8,348</td><td class="num">8,696</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲348</span></td><td class="num">0.299</td><td class="num">0.311</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲0.012</span></td><td class="num">2,498</td><td class="num">2,706</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:100.0%"></span></span><span class="val">▲208</span></td><td class="num">13,436</td><td class="num">13,957</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:94.7%"></span></span><span class="val">▲521</span></td><td class="num">1.609</td><td class="num">1.605</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:13.8%"></span></span><span class="val">0.004</span></td><td class="num">8.61%</td><td class="num">8.79%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:35.7%"></span></span><span class="val">▲0.18pt</span></td><td class="num">1.31%</td><td class="num">1.24%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:17.1%"></span></span><span class="val">0.07pt</span></td><td class="num">1.54%</td><td class="num">1.57%</td><td class="num delta neg"><span class="bar neg"><span class="fill" style="width:10.0%"></span></span><span class="val">▲0.03pt</span></td><td class="num">1.88%</td><td class="num">1.72%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:15.1%"></span></span><span class="val">0.16pt</span></td></tr><tr><td class="left">S51-0未満</td><td class="num">10,007</td><td class="num">9,940</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:19.3%"></span></span><span class="val">67</span></td><td class="num">0.177</td><td class="num">0.173</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:33.3%"></span></span><span class="val">0.004</span></td><td class="num">1,767</td><td class="num">1,722</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:21.6%"></span></span><span class="val">45</span></td><td class="num">9,256</td><td class="num">8,903</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:64.2%"></span></span><span class="val">353</span></td><td class="num">0.925</td><td class="num">0.896</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">0.029</span></td><td class="num">10.32%</td><td class="num">10.05%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:54.2%"></span></span><span class="val">0.27pt</span></td><td class="num">2.55%</td><td class="num">2.22%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:80.5%"></span></span><span class="val">0.33pt</span></td><td class="num">3.09%</td><td class="num">2.79%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">0.30pt</span></td><td class="num">5.34%</td><td class="num">4.82%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:49.1%"></span></span><span class="val">0.52pt</span></td></tr><tr><td class="left">S0-5未満</td><td class="num">12,901</td><td class="num">12,664</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:68.1%"></span></span><span class="val">237</span></td><td class="num">0.084</td><td class="num">0.079</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:41.7%"></span></span><span class="val">0.005</span></td><td class="num">1,085</td><td class="num">997</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:42.3%"></span></span><span class="val">88</span></td><td class="num">4,918</td><td class="num">4,566</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:64.0%"></span></span><span class="val">352</span></td><td class="num">0.381</td><td class="num">0.361</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:69.0%"></span></span><span class="val">0.020</span></td><td class="num">13.31%</td><td class="num">12.81%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:100.0%"></span></span><span class="val">0.51pt</span></td><td class="num">0.24%</td><td class="num">0.20%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:9.8%"></span></span><span class="val">0.04pt</span></td><td class="num">0.33%</td><td class="num">0.28%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:16.7%"></span></span><span class="val">0.05pt</span></td><td class="num">0.93%</td><td class="num">0.84%</td><td class="num delta pos"><span class="bar pos"><span class="fill" style="width:8.5%"></span></span><span class="val">0.09pt</span></td></tr></tbody></table></div>
+        </div>
+      </section>
+    </div>
+
+    <div class="footer">copyright(c) P-Brain Co., Ltd. All Rights Reserved.</div>
+  </div>
+</body>
+</html>
